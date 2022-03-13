@@ -1,9 +1,8 @@
 extends KinematicBody2D
 
-var run_speed = 40
+var run_speed = 50
 var velocity = Vector2.ZERO
-var player = null
-signal killed
+var player=null
 func _physics_process(delta):
 	velocity = Vector2.ZERO
 	if player:
@@ -11,7 +10,9 @@ func _physics_process(delta):
 	velocity = move_and_slide(velocity)
 
 func _on_Area2D_body_entered(body):
-	player = body
+	if body.is_in_group("player"):
+		player=body
+	pass
 
 func _on_Area2D_body_exited(area):
 	pass
@@ -20,4 +21,4 @@ func _on_Area2D_body_exited(area):
 func _on_Hit_box_area_entered(area):
 	if area.name == 'hurt_bullet':
 		queue_free()
-		emit_signal("killed")
+		
